@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor @NoArgsConstructor
 public class ConvertResponse {
-    private String original;     // <— tên field PHẢI trùng với bạn dùng trong template
+    private String original;
     private BaseType fromBase;
     private String result;
     private BaseType toBase;

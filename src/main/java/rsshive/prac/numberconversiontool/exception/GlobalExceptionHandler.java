@@ -1,4 +1,4 @@
-// GlobalExceptionHandler.java
+
 package rsshive.prac.numberconversiontool.exception;
 
 import org.springframework.ui.Model;
@@ -12,7 +12,7 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(ConversionException.class)
     public String handleConversion(ConversionException ex, Model model) {
-        // đảm bảo form & dropdown luôn có
+
         if (!model.containsAttribute("convertRequest")) {
             ConvertRequest req = new ConvertRequest();
             req.setFromBase(BaseType.TEXT);

@@ -19,7 +19,7 @@ public class ConverterViewController {
         this.service = service;
     }
 
-    /** Cung cấp danh sách mode cho mọi request (dropdown) */
+
     @ModelAttribute("modes")
     public BaseType[] modes() {
         return BaseType.values();
@@ -27,14 +27,14 @@ public class ConverterViewController {
 
     @GetMapping({"/", "/index"})
     public String index(Model model) {
-        // Chỉ tạo form-backing bean, KHÔNG gọi service ở GET
+
         if (!model.containsAttribute("convertRequest")) {
             ConvertRequest req = new ConvertRequest();
             req.setFromBase(BaseType.TEXT);
             req.setToBase(BaseType.DECIMAL);
             model.addAttribute("convertRequest", req);
         }
-        // Không set "result" khi chưa convert để tránh null pointer trong view
+
         return "index";
     }
 
@@ -56,7 +56,7 @@ public class ConverterViewController {
                     new ConvertResponse(req.getValue(), req.getFromBase(), out, req.getToBase()));
             model.addAttribute("error", null);
         } catch (rsshive.prac.numberconversiontool.exception.ConversionException ex) {
-            // 🟢 bắt ConversionException và hiển thị lỗi đẹp trên trang
+
             model.addAttribute("result", null);
             model.addAttribute("error", ex.getMessage());
         } catch (IllegalArgumentException ex) {

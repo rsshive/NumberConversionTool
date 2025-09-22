@@ -1,4 +1,4 @@
-// ApiExceptionHandler.java
+
 package rsshive.prac.numberconversiontool.exception;
 
 import org.springframework.http.HttpStatus;

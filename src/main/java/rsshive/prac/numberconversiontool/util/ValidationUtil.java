@@ -9,7 +9,7 @@ public class ValidationUtil {
             case 8:  pattern = "[0-7]+"; break;
             case 10: pattern = "\\d+"; break;
             case 16: pattern = "[0-9a-fA-F]+"; break;
-            default: return true; // tạm cho qua
+            default: return true;
         }
         return value.matches(pattern);
     }

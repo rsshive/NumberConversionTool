@@ -23,19 +23,19 @@
 </head>
 <body>
 <div class="card">
-    <h1>Công cụ chuyển đổi hệ cơ số & văn bản</h1>
+    <h1>Number Base converter</h1>
 
     <!-- Form bind với convertRequest -->
     <form th:action="@{/convert}" method="post" th:object="${convertRequest}">
         <div class="row">
             <div>
-                <label for="fromBase">Từ (From)</label>
+                <label for="fromBase">From</label>
                 <select id="fromBase" th:field="*{fromBase}">
                     <option th:each="m : ${modes}" th:value="${m}" th:text="${m}"></option>
                 </select>
             </div>
             <div>
-                <label for="toBase">Sang (To)</label>
+                <label for="toBase">To</label>
                 <select id="toBase" th:field="*{toBase}">
                     <option th:each="m : ${modes}" th:value="${m}" th:text="${m}"></option>
                 </select>
@@ -44,22 +44,17 @@
 
         <div>
             <label for="value">Giá trị đầu vào</label>
-            <textarea id="value" th:field="*{value}" placeholder="Nhập số hoặc văn bản, ví dụ: FF / 1111 1111 / 255 / Hello @#$"></textarea>
+            <textarea id="value" th:field="*{value}" placeholder="example: FF / 1111 1111 / 255 / Hello @#$"></textarea>
         </div>
 
         <button type="submit">Convert</button>
 
-        <!-- Hint động (không bắt buộc) -->
-        <p class="muted">
-            Gợi ý: Nếu <span class="mono">From=TEXT</span> → mỗi ký tự sẽ đổi thành số (tách bằng khoảng trắng).
-            Nếu <span class="mono">To=TEXT</span> → hãy nhập số theo token (vd: <span class="mono">65 66 67</span> cho DEC→TEXT).
-        </p>
+
     </form>
 
-    <!-- Lỗi (nếu có) -->
+
     <div th:if="${error}" class="error" th:text="${error}"></div>
 
-    <!-- Kết quả (chỉ render khi có) -->
     <div th:if="${result}" class="result">
         <div class="mono" th:text="'Input:  ' + ${result.original} + ' (' + ${result.fromBase} + ')'"></div>
         <div class="mono" th:text="'Output: ' + ${result.result}   + ' (' + ${result.toBase}   + ')'"></div>

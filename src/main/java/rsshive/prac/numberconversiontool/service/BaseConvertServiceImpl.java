@@ -13,11 +13,11 @@ public class BaseConvertServiceImpl implements BaseConvertService {
     @Override
     public String convert(String value, BaseType from, BaseType to) {
         if (from == null || to == null) {
-            throw new ConversionException("Kiểu chuyển đổi không hợp lệ (null).");
+            throw new ConversionException("Invalid conversion types.");
         }
         String v = (value == null) ? "" : value.trim();
         if (v.isEmpty()) {
-            throw new ConversionException("Giá trị đầu vào không được để trống.");
+            throw new ConversionException("Input value cannot be empty.");
         }
 
         // TEXT -> TEXT
@@ -29,9 +29,9 @@ public class BaseConvertServiceImpl implements BaseConvertService {
         if (from == BaseType.TEXT) {
             int toBase = to.getBase();
             if (toBase < 2 || toBase > 36) {
-                throw new ConversionException("Không thể chuyển TEXT sang " + to + ".");
+                throw new ConversionException("Unable to convert TEXT into " + to + ".");
             }
-            // Mỗi code point -> 1 token ở cơ số đích (cách nhau khoảng trắng)
+
             StringBuilder sb = new StringBuilder();
             for (int i = 0; i < v.length(); ) {
                 int cp = v.codePointAt(i);
@@ -48,12 +48,12 @@ public class BaseConvertServiceImpl implements BaseConvertService {
         if (to == BaseType.TEXT) {
             int fromBase = from.getBase();
             if (fromBase < 2 || fromBase > 36) {
-                throw new ConversionException("Không thể chuyển " + from + " sang TEXT.");
+                throw new ConversionException("Unable to convert " + from + " to TEXT.");
             }
-            // Cho phép phân tách bởi khoảng trắng hoặc dấu phẩy
+
             String cleaned = v.replace(',', ' ').trim().replaceAll("\\s+", " ");
             if (cleaned.isEmpty()) {
-                throw new ConversionException("Không tìm thấy token số để chuyển sang TEXT.");
+                throw new ConversionException("Unable to convert empty value to TEXT.");
             }
 
             StringBuilder sb = new StringBuilder();
@@ -64,31 +64,31 @@ public class BaseConvertServiceImpl implements BaseConvertService {
                 try {
                     num = new BigInteger(digits, fromBase);
                 } catch (NumberFormatException ex) {
-                    throw new ConversionException("Token \"" + token + "\" không hợp lệ cho base " + fromBase + ".", ex);
+                    throw new ConversionException("Token \"" + token + "\" is invalid from " + fromBase + ".", ex);
                 }
-                // Code point hợp lệ: 0..0x10FFFF
+
                 if (num.signum() < 0 || num.compareTo(BigInteger.valueOf(0x10FFFF)) > 0) {
-                    throw new ConversionException("Giá trị code point ngoài phạm vi Unicode: " + num);
+                    throw new ConversionException("Code point is out of Unicode range : " + num);
                 }
-                int cp = num.intValue(); // an toàn vì đã giới hạn
+                int cp = num.intValue();
                 sb.appendCodePoint(cp);
             }
             return sb.toString();
         }
 
-        // Numeric -> Numeric (BigInteger, không giới hạn độ dài; hỗ trợ dấu âm)
+        // Numeric -> Numeric
         int fromBase = from.getBase();
         int toBase   = to.getBase();
         if (fromBase < 2 || fromBase > 36 || toBase < 2 || toBase > 36) {
-            throw new ConversionException("Base phải nằm trong khoảng 2..36.");
+            throw new ConversionException("Base must be in the range of 2..36.");
         }
 
-        String digits = v.replaceAll("[\\s_]", ""); // chấp nhận "1111 1111" hoặc "7FFF_FFFF"
+        String digits = v.replaceAll("[\\s_]", "");
         try {
             String out = BaseConverterUtil.convertBase(digits, fromBase, toBase);
             return (toBase == 16) ? out.toUpperCase() : out;
         } catch (IllegalArgumentException ex) {
-            // Bọc lại thành ConversionException để controller/handler xử lý thống nhất
+
             throw new ConversionException(ex.getMessage(), ex);
         }
     }

@@ -6,13 +6,13 @@ public class BaseConverterUtil {
 
     public static String convertBase(String value, int fromBase, int toBase) {
         if (value == null || value.isBlank()) {
-            throw new IllegalArgumentException("Giá trị đầu vào không được để trống.");
+            throw new IllegalArgumentException("Input value cannot be empty.");
         }
         try {
             BigInteger number = new BigInteger(value, fromBase);
             return number.toString(toBase);
         } catch (NumberFormatException ex) {
-            throw new IllegalArgumentException("Giá trị \"" + value + "\" không hợp lệ cho base " + fromBase);
+            throw new IllegalArgumentException( value + "is not valid for " + fromBase + " base.");
         }
     }
 

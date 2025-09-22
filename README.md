@@ -1,31 +1,62 @@
-# Spring Base Converter Project Structure
+# Number Conversion Tool
 
+A Spring Boot application for converting numbers and text between different bases (e.g., binary, decimal, hexadecimal, text).
+
+## Features
+
+- Convert numbers between bases 2–36
+- Convert text to numeric base representations and vice versa
+- REST API and web interface
+- Input validation and error handling
+
+## Technologies
+
+- Java
+- Spring Boot
+- Maven
+
+## Getting Started
+
+### Prerequisites
+
+- Java 17+
+- Maven
+
+### Build and Run
+
+```sh
+mvn clean package
+java -jar target/numberconversiontool-0.0.1-SNAPSHOT.jar
 ```
-spring-base-converter/
-└── src
-    ├── main
-    │   ├── java/com/example/baseconverter
-    │   │   ├── BaseConverterApplication.java
-    │   │   ├── config/
-    │   │   │   └── ThymeleafConfig.java                 # (optional)
-    │   │   ├── controller/
-    │   │   │   ├── ConverterViewController.java         # Controller for View (Thymeleaf)
-    │   │   │   └── ConverterApiController.java          # Controller for REST API
-    │   │   ├── exception/
-    │   │   │   ├── ApiError.java
-    │   │   │   └── GlobalExceptionHandler.java
-    │   │   ├── model/                                   # (Model/DTO)
-    │   │   │   ├── ConvertRequest.java
-    │   │   │   └── ConvertResponse.java
-    │   │   ├── service/
-    │   │   │   ├── BaseConvertService.java              # Interface (business layer)
-    │   │   │   └── BaseConvertServiceImpl.java          # Implementation
-    │   │   └── util/
-    │   │       └── BaseDigits.java                      # Digit table & helpers
-    │   └── resources
-    │       ├── application.properties
-    │       └── templates/
-    │           └── index.html                           # View (V in MVC)
-    └── test/java/com/example/baseconverter
-        └── BaseConvertServiceTests.java                 # Unit test service
+
+### Structure
+```
+number-conversion-tool/
+├─ pom.xml
+├─ README.md
+└─ src/
+   ├─ main/
+   │  ├─ java/rsshive/prac/numberconversiontool/
+   │  │  ├─ NumberConversionToolApplication.java
+   │  │  ├─ controller/
+   │  │  │  ├─ ConverterApiController.java
+   │  │  │  └─ ConverterViewController.java
+   │  │  ├─ exception/
+   │  │  │  ├─ ConversionException.java
+   │  │  │  ├─ GlobalExceptionHandler.java
+   │  │  │  └─ ApiExceptionHandler.java
+   │  │  ├─ model/
+   │  │  │  ├─ BaseType.java
+   │  │  │  ├─ ConvertRequest.java
+   │  │  │  └─ ConvertResponse.java
+   │  │  ├─ service/
+   │  │  │  ├─ BaseConvertService.java
+   │  │  │  └─ BaseConvertServiceImpl.java
+   │  │  └─ util/
+   │  │     └─ BaseConverterUtil.java
+   │  └─ resources/
+   │     ├─ application.properties
+   │     └─ templates/
+   │        └─ index.html
+   └─ test/java/.../BaseConvertServiceTests.java
 ```
